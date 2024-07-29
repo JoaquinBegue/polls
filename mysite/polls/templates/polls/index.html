@@ -1,0 +1,14 @@
+{% extends "polls/layout.html" %}
+
+{% block body %}
+<div class="questions">
+{% for question in questions %}
+<div class="question">
+  {{ question }}
+  {% for choice in question.choice_set.all %}
+    {{ choice }}
+  {% endfor %}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

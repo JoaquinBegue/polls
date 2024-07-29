@@ -1,0 +1,23 @@
+Site description:
+    A simple polls site wich let the user create a new poll and vote in others.
+
+Structure:
+    A Question model will represent each poll question. This model will have a
+    "question_text" field and a "pub_date" field.
+    
+    A Choice model will represent the choices a poll can have. This model will
+    have a Foreign Key to a Question, a "choice_text" field and a "votes" field.
+
+    A Vote model will represent each vote a poll's choice can have. This model 
+    will have a Foreign Key to the Choice and the User who voted.
+
+Style structure:
+    The main page will display all the polls. Each polls will only show the
+    question. If the user is authenticated, a button will allow the choices to
+    appear.
+    The choices will be displayed in a grid. When the user votes, the content
+    of the choice's container should change to show the current results of the
+    poll (like Twitter's polls).
+
+    The login and sign up forms will appear as a popup, in the middle of the
+    screen, blurring the background.
