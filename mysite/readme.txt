@@ -37,8 +37,7 @@ Style structure:
 
 
 Checkpoints:
-    > Create models.
+    X Create models.
     > Structure the question loader view.
     > Structure navbar.
     > Implement authentication.
-    > 
