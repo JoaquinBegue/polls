@@ -38,6 +38,6 @@ Style structure:
 
 Checkpoints:
     X Create models.
-    > Structure the question loader view.
+    X Structure the question loader view.
     > Structure navbar.
     > Implement authentication.

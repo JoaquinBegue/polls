@@ -1,7 +1,33 @@
 {% extends "polls/layout.html" %}
 {% load static %}
 
+{% block extrahead %}
+<script src="{% static 'polls/index.js' %}"></script>
+{% endblock %}
+
 {% block body %}
-<div class="polls">
+<div class="row">
+  
+  <div class="col-7 polls"></div>
+  
+  <div class="col-5 create-poll">
+    <h2>Create a Poll</h2>
+
+    <form class="poll-form" action="{% url 'index' %}" method="post">
+      {% csrf_token %}
+      <div class="question-form">
+        {{ question_form }}
+      </div>
+
+      <div class="choice-form">
+        <h4>Add at </h4>
+        {{ choice_formset }}
+      </div>
+
+      <button class="btn btn-primary" type="submit">Create</button>
+    </form>
+
+  </div>  
+
 </div>
 {% endblock %}

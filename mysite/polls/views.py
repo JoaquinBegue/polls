@@ -1,12 +1,30 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 from .models import Question, Choice
-from .utils import DateTimeAwareEncoder
-import json
+from .forms import QuestionForm, ChoiceFormSet
 
 # Create your views here.
 def index(request):
-    return render(request, "polls/index.html")
+    if request.method == "POST":
+        question_form = QuestionForm(request.POST)
+        choice_formset = ChoiceFormSet(request.POST)
+        if question_form.is_valid() and choice_formset.is_valid():
+            question = question_form.save()
+            choices = choice_formset.save(commit=False)
+            for choice in choices:
+                choice.question = question
+                choice.save()
+
+        return HttpResponseRedirect(reverse("index"))
+
+    else:
+        return render(request, "polls/index.html", {
+                "question_form": QuestionForm(),
+                "choice_formset": ChoiceFormSet(),
+            })
+    
+    
 
 
 def questions(request):
@@ -19,8 +37,6 @@ def questions(request):
     for q in questions:
         qf = {"id": q.id, "question_text": q.question_text, "pub_date": q.pub_date.isoformat(), "category": q.category}
         questions_formatted.append(qf)
-
-    print(questions_formatted)
         
     return JsonResponse({
             "questions": questions_formatted

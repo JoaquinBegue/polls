@@ -1,14 +1,23 @@
 let counter = 0;
 const quantity = 10;
 
-document.addEventListener('DOMContentLoaded', load_questions);
+document.addEventListener('DOMContentLoaded', () => {
+    load_questions();
+    const polls = document.querySelector('.polls');
+    polls.onscroll = () => {
+        // Check if we're at the bottom
+        if (polls.scrollTop + polls.clientHeight >= polls.scrollHeight) {
+            load_questions();
+        }
+    }
+});
 
 function load_questions() {
     const start = counter;
     const end = start + quantity;
     counter = end + 1;
 
-    fetch(`/questions?start=${start}&end=${end}`)
+    fetch(`/questions?start=${start}&end=${end}`) 
     .then(response => response.json())
     .then(data => {
         data.questions.forEach(add_question);
