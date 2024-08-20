@@ -12,17 +12,21 @@ def index(request):
         if question_form.is_valid() and choice_formset.is_valid():
             question = question_form.save()
             choices = choice_formset.save(commit=False)
+            print(len(choices))
             for choice in choices:
                 choice.question = question
                 choice.save()
-
-        return HttpResponseRedirect(reverse("index"))
+            
+            return HttpResponseRedirect(reverse("index"))
 
     else:
-        return render(request, "polls/index.html", {
-                "question_form": QuestionForm(),
-                "choice_formset": ChoiceFormSet(),
-            })
+        question_form = QuestionForm()
+        choice_formset = ChoiceFormSet()
+
+    return render(request, "polls/index.html", {
+            "question_form": question_form,
+            "choice_formset": choice_formset,
+        })
     
     
 

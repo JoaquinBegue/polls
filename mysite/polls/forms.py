@@ -23,7 +23,13 @@ class ChoiceForm(ModelForm):
         widgets = {
             "choice_text": TextInput(attrs={
                 "class": "form-control",
-                "placeholder": "Write a poll's option here"})
+                "placeholder": "Enter a choice here"})
         }
 
-ChoiceFormSet = inlineformset_factory(Question, Choice, form=ChoiceForm, extra=2)
+ChoiceFormSet = inlineformset_factory(
+    Question, Choice, form=ChoiceForm,
+    extra=0,
+    min_num=2,
+    validate_min=True,
+    can_delete=False
+)

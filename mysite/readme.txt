@@ -41,3 +41,5 @@ Checkpoints:
     X Structure the question loader view.
     > Structure navbar.
     > Implement authentication.
+
+TODO: Fix the posted time setting of questions.

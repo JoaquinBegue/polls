@@ -1,14 +1,18 @@
 {% extends "polls/layout.html" %}
 {% load static %}
 
-{% block extrahead %}
-<script src="{% static 'polls/index.js' %}"></script>
-{% endblock %}
-
 {% block body %}
 <div class="row">
   
-  <div class="col-7 polls"></div>
+  <div class="col-7 polls">
+    <div class="poll" style="display: none;">
+      <div class="question">
+        <h3 class="question-text"></h3>
+        <h5 class="question-pub-date"></h5>
+        <h4 class="question-category"></h4>
+      </div>
+    </div>
+  </div>
   
   <div class="col-5 create-poll">
     <h2>Create a Poll</h2>
@@ -20,11 +24,25 @@
       </div>
 
       <div class="choice-form">
-        <h4>Add at </h4>
+        <h4>Add choices</h4>
+        <p>At least 2 choices are required. To add more, write them in the extra
+          choice field and then click the Add button.</p>
         {{ choice_formset }}
+        <div id="extra-choice-0" class="extra-choice" style="display: none;">
+          <input type="text" name="choice_set-2-choice_text" class="form-control" placeholder="Extra choice (optional)" maxlength="200" id="id_choice_set-2-choice_text">
+          <input type="hidden" name="choice_set-2-id" id="id_choice_set-2-id">
+          <input type="hidden" name="choice_set-2-question" id="id_choice_set-2-question">
+          <button id="remove-choice-btn" onclick="removeChoice(this)" class="btn btn-outline-primary" type="button">X</button>
+        </div>
+        <div id="add-extra-choice">
+          <input type="text" class="form-control" placeholder="Extra choice (optional)" maxlength="200" id="id_choice_set-2-choice_text">
+          <button id="add-extra-choice-btn" onclick="addExtraChoice(this)" disabled class="btn btn-outline-primary" type="button">Add</button>
+        </div>
       </div>
 
-      <button class="btn btn-primary" type="submit">Create</button>
+      <div class="submit">
+        <button class="btn btn-primary" type="submit">Create</button>
+      </div>
     </form>
 
   </div>  

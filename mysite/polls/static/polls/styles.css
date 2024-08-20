@@ -44,3 +44,30 @@ body {
 #id_question_text, #id_category {
     margin-bottom: 20px;
 }
+
+.choice-form > div {
+    margin-bottom: 20px;
+}
+
+.choice-form > p {
+    font-size: small;   
+}
+
+#add-extra-choice, .extra-choice {
+    display: flex;
+}
+
+#add-extra-choice-btn, #remove-choice-btn {
+    margin-left: 10px;
+}
+
+#remove-choice-btn {
+    color: red;
+    border-color: red;
+}
+
+#remove-choice-btn:hover {
+    color: white;
+    border-color: red;
+    background-color: red;
+}
