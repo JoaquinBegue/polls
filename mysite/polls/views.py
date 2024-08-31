@@ -45,3 +45,19 @@ def questions(request):
     return JsonResponse({
             "questions": questions_formatted
         })
+
+
+def choices(request):
+    question_id = int(request.GET.get("question_id"))
+
+    question = Question.objects.get(id=question_id)
+    choices = Choice.objects.filter(question=question)
+    choices_formatted = []
+
+    for c in choices:
+        cf = {"id": c.id, "choice_text": c.choice_text, "votes": c.votes.count()}
+        choices_formatted.append(cf)
+        
+    return JsonResponse({
+            "choices": choices_formatted
+        })

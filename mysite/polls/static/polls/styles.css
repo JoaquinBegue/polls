@@ -2,6 +2,9 @@ body {
     overflow: hidden;
 }
 
+br {
+    color: #6c757d;
+}
 /* Navbar styles */
 .navbar {
     background-color: gray;
@@ -21,7 +24,7 @@ body {
     overflow: scroll;
 }
 
-.poll {
+.poll, .poll-choices {
     background-color: antiquewhite;
     width: 80%;
     border: 2px solid black;
@@ -30,6 +33,34 @@ body {
     margin-right: auto;
     margin-bottom: 10px;
     padding: 10px;
+}
+
+.choices {
+    display: grid;
+    gap: 16px;
+    column-gap: 10px;
+    padding: 10px;
+}
+
+.choice {
+    background-color: whitesmoke;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.display-choices {
+    display: flex;
+    align-items: center;
+}
+
+.bi-arrow-bar-down, .bi-arrow-bar-up {
+    width: 100%;
+    color: #6c757d;
+}
+
+.bi-arrow-bar-down:hover, .bi-arrow-bar-up:hover {
+    color: black;
 }
 
 /* Create poll section styles */

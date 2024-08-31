@@ -5,13 +5,34 @@
 <div class="row">
   
   <div class="col-7 polls">
-    <div class="poll" style="display: none;">
+
+    <div class="poll">
       <div class="question">
-        <h3 class="question-text"></h3>
-        <h5 class="question-pub-date"></h5>
-        <h4 class="question-category"></h4>
+        <h3 class="question-text">Question</h3>
+        <h5 class="question-pub-date">Publication date</h5>
+        <h4 class="question-category">Category</h4>
+        <input type="hidden" name="question_id" value="0">
+        <br>
+      </div>
+      
+      <div class="choices" style="display: none;">
+        <input type="hidden" value="empty">
+        <div class="row">
+          <div class="col-6 px-2">
+            <div class="choice">
+              <h4>Choice 1</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="display-choices" onclick="displayChoices(this)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5M8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6"/>
+        </svg>
       </div>
     </div>
+
   </div>
   
   <div class="col-5 create-poll">
@@ -36,7 +57,7 @@
         </div>
         <div id="add-extra-choice">
           <input type="text" class="form-control" placeholder="Extra choice (optional)" maxlength="200" id="id_choice_set-2-choice_text">
-          <button id="add-extra-choice-btn" onclick="addExtraChoice(this)" disabled class="btn btn-outline-primary" type="button">Add</button>
+          <button id="add-extra-choice-btn" onclick="addExtraChoiceField(this)" disabled class="btn btn-outline-primary" type="button">Add</button>
         </div>
       </div>
 
@@ -45,7 +66,7 @@
       </div>
     </form>
 
-  </div>  
+  </div>
 
 </div>
 {% endblock %}

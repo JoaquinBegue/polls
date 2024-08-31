@@ -4,19 +4,19 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 CATEGORIES = {
-    "P": "Politics",
-    "S": "Sports",
-    "G": "Games",
-    "M": "Music",
-    "F": "Fashion",
-    "D": "Development & Programming",
-    "O": "Other",
+    "Politics": "Politics",
+    "Sports": "Sports",
+    "Games": "Games",
+    "Music": "Music",
+    "Fashion": "Fashion",
+    "Development & Programming": "Development & Programming",
+    "Other": "Other",
 }
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField("date published", auto_now_add=True)
-    category = models.CharField(max_length=1, choices=CATEGORIES, null=True, blank=True)
+    category = models.CharField(max_length=25, choices=CATEGORIES, null=True, blank=True)
     
 
     def __str__(self):

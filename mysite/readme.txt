@@ -42,4 +42,5 @@ Checkpoints:
     > Structure navbar.
     > Implement authentication.
 
-TODO: Fix the posted time setting of questions.
+TODO:
+- Add a fetch function to displayChoices to get poll's choices.
