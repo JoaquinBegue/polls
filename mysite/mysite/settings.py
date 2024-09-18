@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'polls.apps.PollsConfig',
+    'users',
     'livereload',
     'debug_toolbar',
     'django.contrib.admin',

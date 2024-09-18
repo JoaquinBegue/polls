@@ -36,11 +36,18 @@ Style structure:
     should let the user add choices for the question, with a minimum of 2.
 
 
-Checkpoints:
-    X Create models.
-    X Structure the question loader view.
-    > Structure navbar.
-    > Implement authentication.
-
 TODO:
-- Add a fetch function to displayChoices to get poll's choices.
+- Voting system:
+    When user clicks a choice, that choice gets marked and the info is sent to
+    the server. If the user clicks another choice, the old choice gets unmarked
+    and the new choice gets marked, allong with updating the server.
+    If the user clicks the same choice, it gets unvoted.
+
+- voteChoices: 
+    + Mark other choices as unvote when voting.
+    + Fetch the server with the voted choice.
+- Add a hidden input to mark a choice as voted.
+
+- When retrieving choices data, add a field to know if a choices
+is voted for the user.
+

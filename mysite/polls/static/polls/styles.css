@@ -15,6 +15,14 @@ br {
     color: white;
 }
 
+.collapse {
+    align-items: end;
+}
+
+.navbar-nav {
+    align-items: end;
+}
+
 /* Polls section styles */
 .polls {
     width: 60%;
@@ -47,6 +55,11 @@ br {
     border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
+    width: 80%;
+}
+
+.voted {
+    background-color: rgb(225, 245, 255);
 }
 
 .display-choices {
@@ -101,4 +114,11 @@ br {
     color: white;
     border-color: red;
     background-color: red;
+}
+
+
+/* Auth styles */
+
+.login-form {
+    margin: 20px;
 }

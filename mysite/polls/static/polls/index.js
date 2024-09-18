@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // POLLS RELATED.
 
     // Save and remove choice element.
-    choiceDiv = document.querySelector('.choices').children[1].children[0].cloneNode(true);
-    document.querySelector('.choices').children[1].children[0].remove();
+    choiceDivCopy = document.querySelector('.choices').children[2].children[0].cloneNode(true);
+    document.querySelector('.choices').children[2].children[0].remove();
     // Save row element.
-    rowDiv = document.querySelector('.choices').children[1].cloneNode(true);
+    rowDivCopy = document.querySelector('.choices').children[2].cloneNode(true);
     
     // Save poll and poll-choices elements.
     const pollDiv = document.querySelector('.poll');
@@ -116,7 +116,7 @@ function addQuestion(data) {
 
 function displayChoices(displayBtn) {
     let choiceFieldCounter = 0
-    let rowCounter = 1
+    let rowCounter = 2
     const pollDiv = displayBtn.parentNode;
     const choicesDiv = pollDiv.children[1];
 
@@ -126,16 +126,15 @@ function displayChoices(displayBtn) {
         fetch(`/choices?question_id=${questionId}`) 
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             data.choices.forEach((choice) => {
-                // Every 2 choices add a row.
+            // Every 2 choices add a row.
             if (choiceFieldCounter != 0 && choiceFieldCounter % 2 == 0) {
-                choicesDiv.appendChild(rowDiv.cloneNode(true));
+                choicesDiv.appendChild(rowDivCopy.cloneNode(true));
                 rowCounter ++;
             }
     
-            const newChoice = choiceDiv.cloneNode(true);
-            newChoice.children[0].innerHTML = choice.choice_text;
+            const newChoice = choiceDivCopy.cloneNode(true);
+            newChoice.children[0].children[1].children[0].innerHTML = choice.choice_text;
             choicesDiv.children[rowCounter].appendChild(newChoice);
     
             choiceFieldCounter ++;
@@ -157,10 +156,36 @@ function hideChoices(displayBtn, choicesDiv) {
     displayBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5M8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6"/></svg>';
 }
 
-function loadChoices(questionId) {
-    let choices = '';
-    
-    return choices;
+function voteChoice(choiceDiv) {
+    const pollDiv = choiceDiv.parentNode.parentNode.parentNode;
+    // Change styling to mark choice as voted.
+    // If choice is unvoted, mark it as voted and unvote other choices.
+    if (choiceDiv.children[0].value == 'unvoted') {
+        // Unvote other choices.
+        if (pollDiv.children[1].value != 'unvoted') {
+            const choices = pollDiv.querySelectorAll('.choice');
+            choices.forEach((choice) => {
+                choice.classList = 'row choice mx-auto';
+                choice.children[0].value = 'unvoted';
+            });
+        }
+        // Mark as voted.
+        choiceDiv.classList += ' voted';
+        choiceDiv.children[0].value = 'voted';
+        pollDiv.children[1].value = 'voted';
+    // If choice is voted, unvote it.
+    } else {
+        // Mark choice and poll as unvoted.
+        choiceDiv.classList = 'row choice mx-auto';
+        choiceDiv.children[0].value = 'unvoted';
+        pollDiv.children[1].value = 'unvoted';
+
+        // Hide percentages.
+        // TODO
+    }
+
+    // Fetch the server with the voted choice.
+    // TODO First, add authentication system.
 }
 
 // FORM RELATED
