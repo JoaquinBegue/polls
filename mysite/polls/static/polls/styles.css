@@ -44,7 +44,7 @@ br {
 }
 
 .choices {
-    display: grid;
+    display: none;
     gap: 16px;
     column-gap: 10px;
     padding: 10px;
@@ -114,6 +114,10 @@ br {
     color: white;
     border-color: red;
     background-color: red;
+}
+
+#sign-in-prompt, #register-prompt {
+    margin-top: 50px;
 }
 
 

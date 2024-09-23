@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -12,7 +13,6 @@ def index(request):
         if question_form.is_valid() and choice_formset.is_valid():
             question = question_form.save()
             choices = choice_formset.save(commit=False)
-            print(len(choices))
             for choice in choices:
                 choice.question = question
                 choice.save()
@@ -28,8 +28,6 @@ def index(request):
             "choice_formset": choice_formset,
         })
     
-    
-
 
 def questions(request):
     start = int(request.GET.get("start") or 0)
@@ -56,8 +54,34 @@ def choices(request):
 
     for c in choices:
         cf = {"id": c.id, "choice_text": c.choice_text, "votes": c.votes.count()}
+        if request.user in c.votes.all():
+            cf["voted"] = True
+
         choices_formatted.append(cf)
         
     return JsonResponse({
             "choices": choices_formatted
+        })
+
+
+def vote(request):
+    data = json.loads(request.body)
+    choice = Choice.objects.get(id=data.get("choice_id"))
+    
+    if data.get("behavior") == "vote":
+        # Unvote other choices.
+        question = Question.objects.get(id=choice.question.id)
+        for c in question.choices.all():
+            c.votes.remove(request.user)
+        
+        # Vote choice.
+        choice.votes.add(request.user)
+
+    else:
+        print("unvote")
+        # Unvote choice.
+        choice.votes.remove(request.user)
+
+    return JsonResponse({
+            "votes": choice.votes.count()
         })

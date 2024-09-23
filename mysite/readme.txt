@@ -37,17 +37,13 @@ Style structure:
 
 
 TODO:
-- Voting system:
-    When user clicks a choice, that choice gets marked and the info is sent to
-    the server. If the user clicks another choice, the old choice gets unmarked
-    and the new choice gets marked, allong with updating the server.
-    If the user clicks the same choice, it gets unvoted.
 
-- voteChoices: 
-    + Mark other choices as unvote when voting.
-    + Fetch the server with the voted choice.
-- Add a hidden input to mark a choice as voted.
+- Improve general styling.
 
-- When retrieving choices data, add a field to know if a choices
-is voted for the user.
+- Fix category displaying.
 
+- Add category filter system (Optional)
+
+- Add sorting system (Optional)
+    It should let the user sort the polls by post date, most voted and
+    trending (most voted in 24h).

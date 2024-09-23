@@ -8,24 +8,30 @@
 
     <div class="poll">
       <div class="question">
+        <input type="hidden" id="question-id" value="0">
         <h3 class="question-text">Question</h3>
         <h5 class="question-pub-date">Publication date</h5>
         <h4 class="question-category">Category</h4>
-        <input type="hidden" name="question_id" value="0">
         <br>
       </div>
       
-      <div class="choices" style="display: none;">
-        <input type="hidden" value="empty">
-        <input type="hidden" value="unvoted">
+      <div class="choices">
+        <input type="hidden" id="empty" value="true">
+        <input type="hidden" id="status" value="hidden">
         <div class="row">
           <div class="col-6 px-2">
-            <div class="row choice mx-auto" onclick="voteChoice(this)">
-              <input type="hidden" value="unvoted">
+            <div class="row choice mx-auto" 
+              {% if user.is_authenticated %}
+              onclick="voteChoice(this)"
+              {% endif %}
+            >
+              <input type="hidden" id="choice-id" value="0">
+              <input type="hidden" id="status" value="unvoted">
               <div class="col-9 px-1">
-                <h4>Choice 1</h4>
+                <h4 id="choice-text">Choice 1</h4>
               </div>
               <div class="col-3 px-1 my-auto">
+                <h4 id="percentage"></h4>
               </div>
             </div>
           </div>
@@ -42,8 +48,10 @@
   </div>
   
   <div class="col-5 create-poll">
-    <h2>Create a Poll</h2>
+    <h1>Create a Poll</h1>
 
+
+    {% if user.is_authenticated %}
     <form class="poll-form" action="{% url 'index' %}" method="post">
       {% csrf_token %}
       <div class="question-form">
@@ -71,6 +79,13 @@
         <button class="btn btn-primary" type="submit">Create</button>
       </div>
     </form>
+    {% else %}
+      <h1 id="sign-in-prompt">
+        <a href="{% url 'login_user' %}">Sign in</a> to create your own polls!
+      </h1>
+
+      <h2 id="register-prompt">Don't have an account? <a href="{% url 'login_user' %}">Register</a> here!</h2>
+    {% endif %}
 
   </div>
 
