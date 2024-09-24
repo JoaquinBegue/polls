@@ -76,10 +76,14 @@ br {
     color: black;
 }
 
-/* Create poll section styles */
-.create-poll {
+/* FORMS STYLES */
+
+.forms {
     padding: 20px;
+    padding-right: 50px;
 }
+
+/* Create poll styles */
 
 .poll-form {
     padding-right: 20px;
@@ -116,13 +120,26 @@ br {
     background-color: red;
 }
 
-#sign-in-prompt, #register-prompt {
-    margin-top: 50px;
-}
 
 
 /* Auth styles */
+#sign-in-prompt, #register-prompt {
+    margin-bottom: 50px;
+}
 
-.login-form {
-    margin: 20px;
+#register-form {
+    display: none;
+}
+
+.form-buttons {
+    display: flex;
+}
+
+.alternative-buttons {
+    display: flex;
+    justify-content: end;
+}
+
+.form-prompt {
+    width: fit-content;
 }

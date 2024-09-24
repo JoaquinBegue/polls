@@ -37,24 +37,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // FORM RELATED.
 
     // Mark first 2 choice fields as required.
-    document.querySelector("#id_choices-0-choice_text").required = true;
-    document.querySelector("#id_choices-1-choice_text").required = true;
+    try {
+        document.querySelector("#id_choices-0-choice_text").required = true;
+        document.querySelector("#id_choices-1-choice_text").required = true;
+    } catch (error) {
+        console.log(error);
+    }
 
-    // Save extra choice field div.
-    const choiceFieldDiv = document.querySelector('#extra-choice-0');
-    choiceFieldElement = choiceFieldDiv.cloneNode(true);
-    choiceFieldElement.style.display = 'flex';
-    choiceFieldDiv.remove();
-
-    // Enable add choice button if field isn't empty.
-    const addChoiceFieldDiv = document.querySelector('#add-extra-choice');
-    addChoiceFieldDiv.children[0].addEventListener('input', () => {
-        if (addChoiceFieldDiv.children[0].value.trim() != '') {
-            addChoiceFieldDiv.children[1].disabled = false;
-        } else {
-            addChoiceFieldDiv.children[1].disabled = true;
-        }
-    });
+    try {
+        // Save extra choice field div.
+        const choiceFieldDiv = document.querySelector('#extra-choice-0');
+        choiceFieldElement = choiceFieldDiv.cloneNode(true);
+        choiceFieldElement.style.display = 'flex';
+        choiceFieldDiv.remove();
+    
+        // Enable add choice button if field isn't empty.
+        const addChoiceFieldDiv = document.querySelector('#add-extra-choice');
+        addChoiceFieldDiv.children[0].addEventListener('input', () => {
+            if (addChoiceFieldDiv.children[0].value.trim() != '') {
+                addChoiceFieldDiv.children[1].disabled = false;
+            } else {
+                addChoiceFieldDiv.children[1].disabled = true;
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 // POLLS RELATED
@@ -250,3 +258,13 @@ function removeChoice(button) {
     button.parentNode.remove();
     document.querySelector('#id_choice_set-TOTAL_FORMS').value--;
 };
+
+function displayRegister() {
+    document.querySelector('#sign-in-form').style.display = 'none';
+    document.querySelector('#register-form').style.display = 'block';
+}
+
+function displayLogin() {
+    document.querySelector('#register-form').style.display = 'none';
+    document.querySelector('#sign-in-form').style.display = 'block';
+}
