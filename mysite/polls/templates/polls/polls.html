@@ -1,4 +1,27 @@
 {% load static %}
+<div class="parameters">
+</div>
+<div class="input-group mb-3">
+  <label class="input-group-text" for="category-select">Category</label>
+  <select class="form-select" id="category-select">
+    <option selected>All</option>
+    <option value="Politics">Politics</option>
+    <option value="Sports">Sports</option>
+    <option value="Games">Games</option>
+    <option value="Music">Music</option>
+    <option value="Fashion">Fashion</option>
+    <option value="Development & Programming">Development & Programming</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <label class="input-group-text" for="order-select">Order by...</label>
+  <select class="form-select" id="order-select">
+    <option selected>Date</option>
+    <option value="Most voted">Most voted</option>
+    <option value="Trending">Trending</option>
+  </select>
+  <button type="button">Search</button>
+</div>
 
 <div class="poll">
   <div class="question">

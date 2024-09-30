@@ -7,6 +7,8 @@ from .forms import QuestionForm, ChoiceFormSet
 
 # Create your views here.
 def index(request):
+    """Renders the main page and process the poll form data."""
+
     if request.method == "POST":
         question_form = QuestionForm(request.POST)
         choice_formset = ChoiceFormSet(request.POST)
@@ -30,9 +32,12 @@ def index(request):
     
 
 def questions(request):
+    """Returns the requested set of questions."""
+
     start = int(request.GET.get("start") or 0)
     end = int(request.GET.get("end") or start + 10)
 
+    #TODO: May be a more efficent way to query the DB for only the needed objs.
     questions = Question.objects.all().order_by("-pub_date")[start:end]
     questions_formatted = []
 
@@ -46,6 +51,8 @@ def questions(request):
 
 
 def choices(request):
+    """Returns the choices of a requested question."""
+
     question_id = int(request.GET.get("question_id"))
 
     question = Question.objects.get(id=question_id)
@@ -65,6 +72,8 @@ def choices(request):
 
 
 def vote(request):
+    """Handles the voting system."""
+
     data = json.loads(request.body)
     choice = Choice.objects.get(id=data.get("choice_id"))
     

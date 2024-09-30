@@ -76,6 +76,14 @@ br {
     color: black;
 }
 
+.parameters {
+    display: flex;
+}
+
+#category-select, #order-select {
+    margin-right: 10px;
+}
+
 /* FORMS STYLES */
 
 .forms {
