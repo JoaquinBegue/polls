@@ -36,11 +36,23 @@ def questions(request):
 
     start = int(request.GET.get("start") or 0)
     end = int(request.GET.get("end") or start + 10)
+    category = request.GET.get("category")
+    order = request.GET.get("order")
 
-    #TODO: May be a more efficent way to query the DB for only the needed objs.
-    questions = Question.objects.all().order_by("-pub_date")[start:end]
+    if order == "Most recent":
+        order = "-pub_date"
+    elif order == "Most voted":
+        order = "votes"
+    else:
+        order = "trending"
+    print(order)
+
+    if category == "All":
+        questions = Question.objects.all().order_by(order)[start:end]
+    else:
+        questions = Question.objects.filter(category=category).order_by(order)[start:end]
+    
     questions_formatted = []
-
     for q in questions:
         qf = {"id": q.id, "question_text": q.question_text, "pub_date": q.pub_date.isoformat(), "category": q.category}
         questions_formatted.append(qf)

@@ -72,7 +72,10 @@ function loadPolls() {
     const end = start + quantity;
     pollCounter = end + 1;
 
-    fetch(`/questions?start=${start}&end=${end}`)
+    const category = document.querySelector('#category-select').value;
+    const order = document.querySelector('#order-select').value;
+
+    fetch(`/questions?start=${start}&end=${end}&category=${category}&order=${order}`)
         .then(response => response.json())
         .then(data => {
             data.questions.forEach(addQuestion);
@@ -231,6 +234,15 @@ function voteChoice(choiceDiv) {
         .then(data => {
             // TODO Update percentages.
         });
+}
+
+function refreshPolls() {
+    // Clear the polls section.
+    document.querySelector('.polls').innerHTML = '';
+    // Reset the polls counter.
+    pollCounter = 0;
+    // Display the new polls.
+    loadPolls();
 }
 
 // FORM RELATED
