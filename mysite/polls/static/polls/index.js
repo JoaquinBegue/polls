@@ -75,14 +75,14 @@ function loadPolls() {
     const category = document.querySelector('#category-select').value;
     const order = document.querySelector('#order-select').value;
 
-    fetch(`/questions?start=${start}&end=${end}&category=${category}&order=${order}`)
+    fetch(`/polls?start=${start}&end=${end}&category=${category}&order=${order}`)
         .then(response => response.json())
         .then(data => {
-            data.questions.forEach(addQuestion);
+            data.polls.forEach(addPoll);
         });
 };
 
-function addQuestion(data) {
+function addPoll(data) {
     const newPoll = pollElement.cloneNode(true);
     newPoll.style.display = 'block';
     // Set the question text.
@@ -114,18 +114,18 @@ function addQuestion(data) {
             posted = `Posted ${Math.round(delta / (1000 * 60 * 60 * 24))} days ago.`;
             break;
     }
-    newPoll.querySelector('.question-pub-date').innerHTML = posted;
+    newPoll.querySelector('.poll-pub-date').innerHTML = posted;
     // Set the category.
-    newPoll.querySelector('.question-category').innerHTML = data.category;
+    newPoll.querySelector('.poll-category').innerHTML = data.category;
     // Set the id.
-    newPoll.querySelector('#question-id').value = data.id;
+    newPoll.querySelector('#poll-id').value = data.id;
     // Append the new poll.
     document.querySelector('.polls').appendChild(newPoll);
 };
 
-function addChoices(questionId, choicesDiv) {
+function addChoices(pollId, choicesDiv) {
     // Get choices from backend.
-    fetch(`/choices?question_id=${questionId}`)
+    fetch(`/choices?poll_id=${pollId}`)
         .then(response => response.json())
         .then(data => {
             // Add each choice to the choices div.
@@ -168,8 +168,8 @@ function displayChoices(displayBtn) {
 
     // Add choices if empty.
     if (choicesDiv.querySelector('#empty').value == 'true') {
-        const questionId = displayBtn.parentNode.querySelector('#question-id').value;
-        addChoices(questionId, choicesDiv);
+        const pollId = displayBtn.parentNode.querySelector('#poll-id').value;
+        addChoices(pollId, choicesDiv);
     }
 
     // Show choices div.
@@ -219,17 +219,7 @@ function voteChoice(choiceDiv) {
     }
 
     // Fetch the server with the voted choice.
-    fetch(`/vote`, {
-        method: 'PUT',
-        body: JSON.stringify({
-            choice_id: choiceId,
-            behavior: behavior
-        }),
-        headers: {
-            'X-CSRFToken': csrfToken,
-            'Content-Type': 'application/json'
-        }
-    })
+    fetch(`/vote?choice_id=${choiceId}&behavior=${behavior}`)
         .then(response => response.json())
         .then(data => {
             // TODO Update percentages.

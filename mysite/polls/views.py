@@ -1,38 +1,39 @@
-import json
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
-from .models import Question, Choice
-from .forms import QuestionForm, ChoiceFormSet
+from .models import Poll, Choice, Vote
+from .forms import PollForm, ChoiceFormSet
 
 # Create your views here.
 def index(request):
     """Renders the main page and process the poll form data."""
 
     if request.method == "POST":
-        question_form = QuestionForm(request.POST)
+        poll_form = PollForm(request.POST)
         choice_formset = ChoiceFormSet(request.POST)
-        if question_form.is_valid() and choice_formset.is_valid():
-            question = question_form.save()
+        if poll_form.is_valid() and choice_formset.is_valid():
+            poll = poll_form.save(commit=False)
+            poll.author = request.user
+            poll.save()
             choices = choice_formset.save(commit=False)
             for choice in choices:
-                choice.question = question
+                choice.poll = poll
                 choice.save()
             
             return HttpResponseRedirect(reverse("index"))
 
     else:
-        question_form = QuestionForm()
+        poll_form = PollForm()
         choice_formset = ChoiceFormSet()
 
     return render(request, "polls/index.html", {
-            "question_form": question_form,
+            "poll_form": poll_form,
             "choice_formset": choice_formset,
         })
     
 
-def questions(request):
-    """Returns the requested set of questions."""
+def polls(request):
+    """Returns the requested set of polls."""
 
     start = int(request.GET.get("start") or 0)
     end = int(request.GET.get("end") or start + 10)
@@ -48,27 +49,27 @@ def questions(request):
     print(order)
 
     if category == "All":
-        questions = Question.objects.all().order_by(order)[start:end]
+        polls = Poll.objects.all().order_by(order)[start:end]
     else:
-        questions = Question.objects.filter(category=category).order_by(order)[start:end]
+        polls = Poll.objects.filter(category=category).order_by(order)[start:end]
     
-    questions_formatted = []
-    for q in questions:
-        qf = {"id": q.id, "question_text": q.question_text, "pub_date": q.pub_date.isoformat(), "category": q.category}
-        questions_formatted.append(qf)
+    polls_formatted = []
+    for p in polls:
+        pf = {"id": p.id, "question_text": p.question_text, "pub_date": p.pub_date.isoformat(), "category": p.category}
+        polls_formatted.append(pf)
         
     return JsonResponse({
-            "questions": questions_formatted
+            "polls": polls_formatted
         })
 
 
 def choices(request):
-    """Returns the choices of a requested question."""
+    """Returns the choices of a requested poll."""
 
-    question_id = int(request.GET.get("question_id"))
+    poll_id = int(request.GET.get("poll_id"))
 
-    question = Question.objects.get(id=question_id)
-    choices = Choice.objects.filter(question=question)
+    poll = Poll.objects.get(id=poll_id)
+    choices = Choice.objects.filter(poll=poll)
     choices_formatted = []
 
     for c in choices:
@@ -86,22 +87,29 @@ def choices(request):
 def vote(request):
     """Handles the voting system."""
 
-    data = json.loads(request.body)
-    choice = Choice.objects.get(id=data.get("choice_id"))
+    choice_id = request.GET.get("choice_id")
+    behavior = request.GET.get("behavior")
+    choice = Choice.objects.get(id=choice_id)
     
-    if data.get("behavior") == "vote":
+    if behavior == "vote":
         # Unvote other choices.
-        question = Question.objects.get(id=choice.question.id)
-        for c in question.choices.all():
-            c.votes.remove(request.user)
-        
+        poll = Poll.objects.get(id=choice.Poll.id)
+        try:
+            vote = Vote.objects.get(poll=poll, user=request.user)
+            for c in Poll.choices.all():
+                c.votes.remove(vote)
+        except:
+            print("ERRORRRRRRRRRRR")
+            
         # Vote choice.
-        choice.votes.add(request.user)
+        vote = Vote(poll=poll, choice_obj=choice, user=request.user)
+        choice.votes.add(vote)
 
     else:
         print("unvote")
         # Unvote choice.
-        choice.votes.remove(request.user)
+        vote = Vote.objects.get(choice_obj=choice, user=request.user)
+        choice.votes.remove(vote)
 
     return JsonResponse({
             "votes": choice.votes.count()

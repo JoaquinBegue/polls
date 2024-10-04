@@ -1,10 +1,10 @@
 from django.forms import ModelForm, TextInput, Select, inlineformset_factory
-from .models import Question, Choice
+from .models import Poll, Choice
 
 
-class QuestionForm(ModelForm):
+class PollForm(ModelForm):
     class Meta:
-        model = Question
+        model = Poll
         fields = ["question_text", "category"]
         labels = {"question_text": "Question", "category": "Choose a category"}
         widgets = {
@@ -27,7 +27,7 @@ class ChoiceForm(ModelForm):
         }
 
 ChoiceFormSet = inlineformset_factory(
-    Question, Choice, form=ChoiceForm,
+    Poll, Choice, form=ChoiceForm,
     extra=0,
     min_num=2,
     validate_min=True,
