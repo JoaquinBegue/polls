@@ -46,7 +46,6 @@ def polls(request):
         order = "votes"
     else:
         order = "trending"
-    print(order)
 
     if category == "All":
         polls = Poll.objects.all().order_by(order)[start:end]

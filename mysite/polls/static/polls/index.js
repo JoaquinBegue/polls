@@ -36,10 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FORM RELATED.
 
-    // Mark first 2 choice fields as required.
+    // Mark first 2 choice fields as required and add class to parent divs.
     try {
-        document.querySelector("#id_choices-0-choice_text").required = true;
-        document.querySelector("#id_choices-1-choice_text").required = true;
+        const choiceField0 = document.querySelector("#id_choices-0-choice_text")
+        choiceField0.required = true;
+        choiceField0.parentElement.className = 'choice-field';
+        const choiceField1 = document.querySelector("#id_choices-1-choice_text")
+        choiceField1.required = true;
+        choiceField1.parentElement.className = 'choice-field';
     } catch (error) {
         console.log(error);
     }
@@ -245,11 +249,11 @@ function addExtraChoiceField(button) {
     choiceForm.insertBefore(newExtraChoiceField, button.parentNode);
 
     // Update counters.
-    choiceFieldDivCopy.id = `extra-choice-${choiceFieldCounter}`;
-    var regex = new RegExp(`choice_set-(\\d+)-`, 'g');
-    choiceFieldDivCopy.innerHTML = choiceFieldDivCopy.innerHTML.replace(regex, `choice_set-${2 + choiceFieldCounter}-`);
+    choiceFieldElement.id = `extra-choice-${choiceFieldCounter}`;
+    var regex = new RegExp(`choices-(\\d+)-`, 'g');
+    choiceFieldElement.innerHTML = choiceFieldElement.innerHTML.replace(regex, `choices-${2 + choiceFieldCounter}-`);
     choiceFieldCounter++;
-    document.querySelector('#id_choice_set-TOTAL_FORMS').value++;
+    document.querySelector('#id_choices-TOTAL_FORMS').value++;
 
     // Reset field value and disable button.
     button.parentNode.children[0].value = '';
@@ -258,7 +262,16 @@ function addExtraChoiceField(button) {
 
 function removeChoice(button) {
     button.parentNode.remove();
-    document.querySelector('#id_choice_set-TOTAL_FORMS').value--;
+    document.querySelector('#id_choices-TOTAL_FORMS').value--;
+    // Update the counters of the other choice fields.
+    let counter = 0;
+    document.querySelectorAll('.choice-field').forEach((choiceField) => {
+        value = choiceField.children[0].value;
+        var regex = new RegExp(`choices-(\\d+)-`, 'g');
+        choiceField.innerHTML = choiceField.innerHTML.replace(regex, `choices-${counter}-`);
+        choiceField.children[0].value = value;
+        counter++;
+    });
 };
 
 function displayRegister() {
