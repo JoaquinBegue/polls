@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.utils import timezone
+from django.db.models import Count
 from .models import Poll, Choice, Vote
 from .forms import PollForm, ChoiceFormSet
 
@@ -40,21 +42,29 @@ def polls(request):
     category = request.GET.get("category")
     order = request.GET.get("order")
 
+    if category == "All":
+        category = None
+
     if order == "Most recent":
         order = "-pub_date"
     elif order == "Most voted":
         order = "votes"
     else:
         order = "trending"
+    
+    time_threshold = timezone.now() - timezone.timedelta(hours=24)
 
-    if category == "All":
-        polls = Poll.objects.all().order_by(order)[start:end]
+    if order == "trending":
+        polls = Poll.objects.filter(votes__date__gte=time_threshold) \
+                            .annotate(num_votes=Count('votes')) \
+                            .order_by('-num_votes')
     else:
         polls = Poll.objects.filter(category=category).order_by(order)[start:end]
+
     
     polls_formatted = []
     for p in polls:
-        pf = {"id": p.id, "question_text": p.question_text, "pub_date": p.pub_date.isoformat(), "category": p.category}
+        pf = {"id": p.id, "question_text": p.question_text, "pub_date": p.pub_date.isoformat(), "category": p.category, "votes": p.votes.count()}
         polls_formatted.append(pf)
         
     return JsonResponse({

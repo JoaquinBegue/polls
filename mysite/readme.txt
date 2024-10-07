@@ -47,3 +47,7 @@ TODO:
 - Add sorting system (Optional)
     It should let the user sort the polls by post date, most voted and
     trending (most voted in 24h).
+
+- Create users to test voting.
+
+- Test voting through shell.

@@ -125,6 +125,7 @@ function addPoll(data) {
     newPoll.querySelector('#poll-id').value = data.id;
     // Append the new poll.
     document.querySelector('.polls').appendChild(newPoll);
+    console.log(data.question_text, data.votes);
 };
 
 function addChoices(pollId, choicesDiv) {
@@ -255,8 +256,9 @@ function addExtraChoiceField(button) {
     choiceFieldCounter++;
     document.querySelector('#id_choices-TOTAL_FORMS').value++;
 
-    // Reset field value and disable button.
+    // Reset field value, enable field autofocus and disable button.
     button.parentNode.children[0].value = '';
+    button.parentNode.children[0].focus();
     button.disabled = true;
 };
 
