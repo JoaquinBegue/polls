@@ -225,10 +225,18 @@ function voteChoice(choiceDiv) {
 
     // Fetch the server with the voted choice.
     fetch(`/vote?choice_id=${choiceId}&behavior=${behavior}`)
-        .then(response => response.json())
-        .then(data => {
-            // TODO Update percentages.
-        });
+    .then(response => response.json())
+    .then(data => {
+        // TODO Update percentages.
+        updatePercentages(pollDiv, data.percentages);
+    });
+}
+
+function updatePercentages(pollDiv, percentages) {
+    console.log('asdjasdjb')
+    pollDiv.querySelectorAll('.choice').forEach((choice) => {
+        choice.querySelector('#percentage').innerHTML = percentages[choice.querySelector('#choice-id').value]
+    })
 }
 
 function refreshPolls() {

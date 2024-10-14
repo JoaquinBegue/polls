@@ -49,7 +49,7 @@ def polls(request):
     if order == "Most recent":
         order = "-pub_date"
     elif order == "Most voted":
-        order = "votes"
+        order = "-votes"
     else:
         order = "trending"
     
@@ -64,9 +64,9 @@ def polls(request):
             # Finally, order the queryset according to num_votes in descendent order.
             votes__date__gte=time_threshold) \
             .annotate(num_votes=Count('votes')) \
-            .order_by('-num_votes')
+            .order_by('-num_votes')[start:end]
     else:
-        polls = Poll.objects.filter(category=category).order_by(order)[start:end]
+        polls = Poll.objects.filter(Q(category=category) if category else Q(id__gte=1)).order_by(order)[start:end]
 
 
     print(polls)
@@ -108,10 +108,10 @@ def vote(request):
     choice_id = request.GET.get("choice_id")
     behavior = request.GET.get("behavior")
     choice = Choice.objects.get(id=choice_id)
+    poll = Poll.objects.get(id=choice.Poll.id)
     
     if behavior == "vote":
         # Unvote other choices.
-        poll = Poll.objects.get(id=choice.Poll.id)
         try:
             vote = Vote.objects.get(poll=poll, user=request.user)
             for c in Poll.choices.all():
@@ -129,6 +129,13 @@ def vote(request):
         vote = Vote.objects.get(choice_obj=choice, user=request.user)
         choice.votes.remove(vote)
 
+    # Calculate each choice vote percentage.
+    percentages = {}
+    total_votes = poll.votes.count()
+    for choice in poll.choices.all():
+        percentages[choice.id] = round(100 / (total_votes / choice.votes.count()))
+
     return JsonResponse({
-            "votes": choice.votes.count()
+            "votes": choice.votes.count(),
+            "percentages": percentages
         })
