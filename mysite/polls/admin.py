@@ -4,3 +4,5 @@ from .models import *
 # Register your models here.
 admin.site.register(Poll)
 admin.site.register(Choice)
+admin.site.register(Vote)
+admin.site.register(Registry)

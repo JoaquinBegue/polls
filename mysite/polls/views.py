@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
-from django.db.models import Count
+from django.db.models import Count, Q
 from .models import Poll, Choice, Vote
 from .forms import PollForm, ChoiceFormSet
 
@@ -41,7 +41,8 @@ def polls(request):
     end = int(request.GET.get("end") or start + 10)
     category = request.GET.get("category")
     order = request.GET.get("order")
-
+    print(start, end, category, order)
+    
     if category == "All":
         category = None
 
@@ -52,16 +53,24 @@ def polls(request):
     else:
         order = "trending"
     
-    time_threshold = timezone.now() - timezone.timedelta(hours=24)
-
+    # If requesting treding, get the most voted polls in the last 24 hours.
     if order == "trending":
-        polls = Poll.objects.filter(votes__date__gte=time_threshold) \
-                            .annotate(num_votes=Count('votes')) \
-                            .order_by('-num_votes')
+        time_threshold = timezone.now() - timezone.timedelta(hours=24)
+        polls = Poll.objects.filter(
+            # Filter by category. If no category given, get all polls by filtering by id (get all polls with an ID greater or equal to 1)
+            Q(category=category) if category else Q(id__gte=1),
+            # Filter by votes with a date newer than last 24hs.
+            # Then, add a temporal 'num_votes' field that stores the amount of votes of each poll.
+            # Finally, order the queryset according to num_votes in descendent order.
+            votes__date__gte=time_threshold) \
+            .annotate(num_votes=Count('votes')) \
+            .order_by('-num_votes')
     else:
         polls = Poll.objects.filter(category=category).order_by(order)[start:end]
 
-    
+
+    print(polls)
+
     polls_formatted = []
     for p in polls:
         pf = {"id": p.id, "question_text": p.question_text, "pub_date": p.pub_date.isoformat(), "category": p.category, "votes": p.votes.count()}

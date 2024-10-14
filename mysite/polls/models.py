@@ -41,3 +41,8 @@ class Vote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="votes")
     date = models.DateTimeField(auto_now_add=True)
 
+
+class Registry(models.Model):
+    user_count = models.IntegerField(default=0)
+    poll_count = models.IntegerField(default=0)
+    vote_count = models.IntegerField(default=0)
