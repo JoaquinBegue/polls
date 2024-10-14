@@ -54,20 +54,20 @@ def make_votes(amount, polls=None):
         polls = [Poll.objects.get(pk=pk) for pk in polls[:]]
     # If no polls given, get 10 random polls.
     else:
-        polls_amount = Registry.objects.get(pk=1).poll_count
-        polls = [Poll.objects.get(pk=randint(1, polls_amount)) for n in range(10)]
+        poll_ids = Poll.objects.values_list('id', flat=True)
+        polls = [Poll.objects.get(pk=choice(poll_ids)) for n in range(10)]
 
     # Make random votes, distributing 10 votes per user.
     total_users = round(amount / 10)
-    user_amount = Registry.objects.get(pk=1).user_count
+    user_ids = User.objects.values_list('id', flat=True)
     for user_n in range(total_users):
         # Get random user.
-        user = User.objects.get(pk=randint(1, user_amount))
+        user = User.objects.get(pk=choice(user_ids))
         for n in range(10):
             poll = choice(polls)
             new_vote = Vote(
                 poll = poll,
-                choice_obj = choice(poll.choices),
+                choice_obj = choice(list(poll.choices.all())),
                 user = user
             )
             new_vote.save()
