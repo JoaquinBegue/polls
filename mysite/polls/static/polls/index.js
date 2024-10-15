@@ -125,7 +125,7 @@ function addPoll(data) {
     newPoll.querySelector('#poll-id').value = data.id;
     // Append the new poll.
     document.querySelector('.polls').appendChild(newPoll);
-    console.log(data.question_text, data.votes);
+    //console.log(data.question_text, data.votes);
 };
 
 function addChoices(pollId, choicesDiv) {

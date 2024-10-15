@@ -39,15 +39,15 @@ Style structure:
 TODO:
 
 - Improve general styling.
+- Add author to polls
+- Add 'My polls' section, where the user can see and delete all the polls he created.
+- Improve user registration and authentication
 
-- Fix category displaying.
 
-- Add category filter system (Optional)
+TESTING:
 
-- Add sorting system (Optional)
-    It should let the user sort the polls by post date, most voted and
-    trending (most voted in 24h).
+Features to test:
 
-- Create users to test voting.
-
-- Test voting through shell.
+- Poll creation
+- Poll loading and displaying
+- Voting

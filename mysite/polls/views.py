@@ -41,7 +41,6 @@ def polls(request):
     end = int(request.GET.get("end") or start + 10)
     category = request.GET.get("category")
     order = request.GET.get("order")
-    print(start, end, category, order)
     
     if category == "All":
         category = None
@@ -68,8 +67,6 @@ def polls(request):
     else:
         polls = Poll.objects.filter(Q(category=category) if category else Q(id__gte=1)).order_by(order)[start:end]
 
-
-    print(polls)
 
     polls_formatted = []
     for p in polls:
@@ -108,23 +105,19 @@ def vote(request):
     choice_id = request.GET.get("choice_id")
     behavior = request.GET.get("behavior")
     choice = Choice.objects.get(id=choice_id)
-    poll = Poll.objects.get(id=choice.Poll.id)
+    poll = Poll.objects.get(id=choice.poll.id)
     
     if behavior == "vote":
-        # Unvote other choices.
-        try:
-            vote = Vote.objects.get(poll=poll, user=request.user)
-            for c in Poll.choices.all():
+        # Create the vote obj. If exists, remove it from all poll choices.
+        vote, created = Vote.objects.get_or_create(user=request.user, poll=poll, choice_obj=choice)
+        if not created:
+            for c in poll.choices.all():
                 c.votes.remove(vote)
-        except:
-            print("ERRORRRRRRRRRRR")
             
         # Vote choice.
-        vote = Vote(poll=poll, choice_obj=choice, user=request.user)
         choice.votes.add(vote)
 
     else:
-        print("unvote")
         # Unvote choice.
         vote = Vote.objects.get(choice_obj=choice, user=request.user)
         choice.votes.remove(vote)
