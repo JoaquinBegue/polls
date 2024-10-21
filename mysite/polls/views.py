@@ -103,32 +103,36 @@ def vote(request):
     """Handles the voting system."""
 
     choice_id = request.GET.get("choice_id")
-    behavior = request.GET.get("behavior")
     choice = Choice.objects.get(id=choice_id)
     poll = Poll.objects.get(id=choice.poll.id)
+    percentages = {}
     
-    if behavior == "vote":
-        # Create the vote obj. If exists, remove it from all poll choices.
-        vote, created = Vote.objects.get_or_create(user=request.user, poll=poll, choice_obj=choice)
-        if not created:
-            for c in poll.choices.all():
-                c.votes.remove(vote)
-            
-        # Vote choice.
-        choice.votes.add(vote)
-
-    else:
+    vote, created = Vote.objects.get_or_create(user=request.user, poll=poll, choice_obj=choice)
+    # If vote found, the user unvoted the choice. Delete it.
+    if not created:
         # Unvote choice.
-        vote = Vote.objects.get(choice_obj=choice, user=request.user)
-        choice.votes.remove(vote)
+        vote.delete()
+        return JsonResponse({"percentages": percentages})
+    
+    # If created, a new vote was made. So try find any other vote this user
+    # made on this poll and delete it.
+    try: 
+        v = poll.votes.filter(user=request.user).exclude(choice_obj=choice)[0]
+        v.delete()
+    except ZeroDivisionError:
+        ...
+    
+    # Vote choice.
+    choice.votes.add(vote)  
 
     # Calculate each choice vote percentage.
-    percentages = {}
     total_votes = poll.votes.count()
+    print(total_votes)
     for choice in poll.choices.all():
-        percentages[choice.id] = round(100 / (total_votes / choice.votes.count()))
+        print(choice.choice_text, choice.votes.count())
+        try:
+            percentages[choice.id] = round(100 / (total_votes / choice.votes.count()))
+        except ZeroDivisionError:
+            percentages[choice.id] = 0
 
-    return JsonResponse({
-            "votes": choice.votes.count(),
-            "percentages": percentages
-        })
+    return JsonResponse({"percentages": percentages})

@@ -192,7 +192,6 @@ function hideChoices(displayBtn, choicesDiv) {
 }
 
 function voteChoice(choiceDiv) {
-    let behavior = 'vote';
     const choiceId = choiceDiv.querySelector('#choice-id').value;
     const pollDiv = choiceDiv.parentNode.parentNode.parentNode;
 
@@ -218,17 +217,20 @@ function voteChoice(choiceDiv) {
         choiceDiv.classList = 'row choice mx-auto';
         choiceDiv.querySelector('#status').value = 'unvoted';
         pollDiv.querySelector('#status').value = 'unvoted';
-        behavior = 'unvote';
         // Hide percentages.
-        // TODO
+        pollDiv.querySelectorAll('.percentages').forEach((percentage) => {
+            percentage.style.display = none;
+        })
     }
 
     // Fetch the server with the voted choice.
-    fetch(`/vote?choice_id=${choiceId}&behavior=${behavior}`)
+    fetch(`/vote?choice_id=${choiceId}`)
     .then(response => response.json())
     .then(data => {
-        // TODO Update percentages.
-        updatePercentages(pollDiv, data.percentages);
+        if (data.percentages) {
+            // Update percentages.
+            updatePercentages(pollDiv, data.percentages);
+        }
     });
 }
 
