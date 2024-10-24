@@ -125,7 +125,6 @@ function addPoll(data) {
     newPoll.querySelector('#poll-id').value = data.id;
     // Append the new poll.
     document.querySelector('.polls').appendChild(newPoll);
-    //console.log(data.question_text, data.votes);
 };
 
 function addChoices(pollId, choicesDiv) {
@@ -217,10 +216,6 @@ function voteChoice(choiceDiv) {
         choiceDiv.classList = 'row choice mx-auto';
         choiceDiv.querySelector('#status').value = 'unvoted';
         pollDiv.querySelector('#status').value = 'unvoted';
-        // Hide percentages.
-        pollDiv.querySelectorAll('.percentages').forEach((percentage) => {
-            percentage.style.display = none;
-        })
     }
 
     // Fetch the server with the voted choice.
@@ -230,14 +225,19 @@ function voteChoice(choiceDiv) {
         if (data.percentages) {
             // Update percentages.
             updatePercentages(pollDiv, data.percentages);
+        } else {
+            // Hide percentages.
+            pollDiv.querySelectorAll('.percentage').forEach((percentage) => {
+                percentage.style.display = 'none';
+            })
         }
     });
 }
 
 function updatePercentages(pollDiv, percentages) {
-    console.log('asdjasdjb')
     pollDiv.querySelectorAll('.choice').forEach((choice) => {
         choice.querySelector('#percentage').innerHTML = percentages[choice.querySelector('#choice-id').value]
+        choice.querySelector('.percentage').style.display = 'block';
     })
 }
 

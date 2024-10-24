@@ -112,15 +112,15 @@ def vote(request):
     if not created:
         # Unvote choice.
         vote.delete()
-        return JsonResponse({"percentages": percentages})
+        return JsonResponse({})
     
     # If created, a new vote was made. So try find any other vote this user
     # made on this poll and delete it.
     try: 
         v = poll.votes.filter(user=request.user).exclude(choice_obj=choice)[0]
         v.delete()
-    except ZeroDivisionError:
-        ...
+    except IndexError:
+        pass
     
     # Vote choice.
     choice.votes.add(vote)  
@@ -134,5 +134,5 @@ def vote(request):
             percentages[choice.id] = round(100 / (total_votes / choice.votes.count()))
         except ZeroDivisionError:
             percentages[choice.id] = 0
-
+    print(percentages)
     return JsonResponse({"percentages": percentages})
