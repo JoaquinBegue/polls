@@ -4,10 +4,12 @@
 {% block body %}
 <div class="row">
   
+  <input type="hidden" id="section" value="home">
+
   <div class="col-7 polls-section">
     {% include 'polls/polls.html' %}
   </div>
-  
+
   <div class="col-5 forms-section">
     {% include 'polls/forms.html' %}
   </div>

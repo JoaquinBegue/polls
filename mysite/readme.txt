@@ -38,9 +38,8 @@ Style structure:
 
 TODO:
 
+- Add delete poll feature when loading my polls.
 - Improve general styling.
-- Add author to polls
-- Add 'My polls' section, where the user can see and delete all the polls he created.
 - Improve user registration and authentication
 
 

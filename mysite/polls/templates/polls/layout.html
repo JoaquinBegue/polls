@@ -23,7 +23,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link" onclick="togglePolls('home')">Home</a>
+          </li>
           {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" onclick="togglePolls('my_polls')">My Polls</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout_user' %}">Log Out</a>
           </li>

@@ -78,8 +78,9 @@ function loadPolls() {
 
     const category = document.querySelector('#category-select').value;
     const order = document.querySelector('#order-select').value;
+    const section = document.querySelector('#section').value;
 
-    fetch(`/polls?start=${start}&end=${end}&category=${category}&order=${order}`)
+    fetch(`/polls?start=${start}&end=${end}&category=${category}&order=${order}&section=${section}`)
         .then(response => response.json())
         .then(data => {
             data.polls.forEach(addPoll);
@@ -121,6 +122,8 @@ function addPoll(data) {
     newPoll.querySelector('.poll-pub-date').innerHTML = posted;
     // Set the category.
     newPoll.querySelector('.poll-category').innerHTML = data.category;
+    // Set the author.
+    newPoll.querySelector('.poll-author').innerHTML = `Posted by ${data.author}.`;
     // Set the id.
     newPoll.querySelector('#poll-id').value = data.id;
     // Append the new poll.
@@ -248,6 +251,12 @@ function refreshPolls() {
     pollCounter = 0;
     // Display the new polls.
     loadPolls();
+}
+
+function togglePolls(section) {
+    document.querySelector('#section').value = section;
+    
+    refreshPolls()
 }
 
 // FORM RELATED

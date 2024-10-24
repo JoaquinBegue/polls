@@ -41,6 +41,7 @@ def polls(request):
     end = int(request.GET.get("end") or start + 10)
     category = request.GET.get("category")
     order = request.GET.get("order")
+    section = request.GET.get("section")
     
     if category == "All":
         category = None
@@ -56,6 +57,8 @@ def polls(request):
     if order == "trending":
         time_threshold = timezone.now() - timezone.timedelta(hours=24)
         polls = Poll.objects.filter(
+            # Filter by user if section is my_polls.
+            Q(author=request.user) if section == "my_polls" else Q(id__gte=1),
             # Filter by category. If no category given, get all polls by filtering by id (get all polls with an ID greater or equal to 1)
             Q(category=category) if category else Q(id__gte=1),
             # Filter by votes with a date newer than last 24hs.
@@ -65,12 +68,15 @@ def polls(request):
             .annotate(num_votes=Count('votes')) \
             .order_by('-num_votes')[start:end]
     else:
-        polls = Poll.objects.filter(Q(category=category) if category else Q(id__gte=1)).order_by(order)[start:end]
+        polls = Poll.objects.filter(
+            Q(author=request.user) if section == "my_polls" else Q(id__gte=1),
+            Q(category=category) if category else Q(id__gte=1)
+        ).order_by(order)[start:end]
 
 
     polls_formatted = []
     for p in polls:
-        pf = {"id": p.id, "question_text": p.question_text, "pub_date": p.pub_date.isoformat(), "category": p.category, "votes": p.votes.count()}
+        pf = {"id": p.id, "question_text": p.question_text, "pub_date": p.pub_date.isoformat(), "category": p.category, "author": p.author.username, "votes": p.votes.count()}
         polls_formatted.append(pf)
         
     return JsonResponse({
