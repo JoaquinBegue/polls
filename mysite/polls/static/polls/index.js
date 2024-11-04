@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // POLLS RELATED.
 
     // Save and remove choice and poll elements.
-    choiceElement = document.querySelector('.col-6').cloneNode(true);
-    document.querySelector('.col-6').remove();
+    choiceElement = document.querySelector('.choice-div').cloneNode(true);
+    document.querySelector('.choice-div').remove();
     pollElement = document.querySelector('.poll').cloneNode(true);
     document.querySelector('.poll').remove();
     

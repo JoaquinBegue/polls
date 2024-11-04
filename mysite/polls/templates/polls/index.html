@@ -2,16 +2,25 @@
 {% load static %}
 
 {% block body %}
-<div class="row">
+<div class="row main mx-auto">
   
   <input type="hidden" id="section" value="home">
 
-  <div class="col-7 polls-section">
-    {% include 'polls/polls.html' %}
+  <div class="col-3 sidebar">
+    <a href="{% url 'index' %}" class="text-decoration-none">
+      <span class="title fs-4">Polls</span>
+    </a>
+    <hr>
+
+    {% include 'polls/forms.html' %}
+
+    {% if user.is_authenticated %}
+      <a class="btn btn-outline-secondary" href="{% url 'logout_user' %}">Log Out</a>
+    {% endif %}
   </div>
 
-  <div class="col-5 forms-section">
-    {% include 'polls/forms.html' %}
+  <div class="col-9 polls-section">
+    {% include 'polls/polls.html' %}
   </div>
 
 </div>
