@@ -1,9 +1,9 @@
 {% load static %}
-<div class="parameters">
-  <div class="input-group mx-auto">
-    <label class="input-group-text" for="category-select">Category</label>
-    <select class="form-select" id="category-select">
-      <option selected>All</option>
+<div class="parameters mx-auto">
+  <div class="input-group">
+    <label class="input-group-text rounded-start" for="category-select">Category</label>
+    <select class="form-select form-control rounded-end" id="category-select">
+      <option selected>Category</option>
       <option value="Politics">Politics</option>
       <option value="Sports">Sports</option>
       <option value="Games">Games</option>
@@ -13,31 +13,35 @@
       <option value="Other">Other</option>
     </select>
   
-    <label class="input-group-text" for="order-select">Order by...</label>
+    <label class="input-group-text rounded-start" for="order-select">Order by...</label>
     <select class="form-select" id="order-select">
       <option selected>Most recent</option>
       <option value="Most voted">Most voted</option>
       <option value="Trending">Trending</option>
     </select>
 
-    <button type="button" onclick="refreshPolls()" class="btn btn-outline-secondary">Search</button>
+    <button type="button" onclick="refreshPolls()" class="search-btn btn btn-light">Search</button>
 
-    {% if user.is_authenticated %}
-    <button type="button" onclick="togglePolls('home')" class="btn btn-outline-secondary">All polls</button>
-
-    <button type="button" onclick="togglePolls('my polls')" class="btn btn-outline-secondary">All polls</button>
-    {% endif %}
   </div>
+  {% if user.is_authenticated %}
+  <div class="input-group">
+    <button type="button" onclick="togglePolls('home')" class="btn btn-light">All polls</button>
+  
+    <button type="button" onclick="togglePolls('my polls')" class="btn btn-light">My polls</button>
+  </div>
+  {% endif %}
 </div>    
 
 <div class="polls">
   <div class="poll">
-    <div class="question">
-      <input type="hidden" id="poll-id" value="0">
-      <h3 class="question-text">Question</h3>
-      <h5 class="poll-pub-date">Publication date</h5>
-      <h4 class="poll-category">Category</h4>
-      <h4 class="poll-author">Author</h4>
+    <input type="hidden" id="poll-id" value="0">
+    <h3 class="question-text text-wrap text-break">Question</h3>
+    <div class="poll-footer">
+      <p class="poll-category">Category</p>
+      <div class="author-date">
+        <p class="poll-author mb-0">Author</p>
+        <p class="poll-pub-date mb-0">Publication date</p>
+      </div>
       <br>
     </div>
     

@@ -6,31 +6,13 @@ body {
 br {
     color: #6c757d;
 }
-/* Navbar styles */
-.navbar {
-    background-color: gray;
-    text-decoration: none;
-}
-
-.navbar-brand {
-    color: white;
-}
-
-.collapse {
-    align-items: end;
-}
-
-.navbar-nav {
-    align-items: end;
-}
 
 /* Sidebar styles */
 
 .sidebar {
     padding: 20px;
-    padding-right: 50px;
     height: 100vh;
-    overflow: scroll;
+    min-width: 350px;
     background-color: white;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
@@ -52,7 +34,7 @@ br {
 }
 
 .poll, .poll-choices {
-    width: 80%;
+    width: 500px;
     background-color: white;
     border: 2px solid black;
     border-radius: 10px;
@@ -61,6 +43,25 @@ br {
     margin-bottom: 15px;
     padding: 10px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.poll-footer {
+    display: flex;
+    width: 100%;
+}
+
+.author-date {
+    display: flex;
+    margin-left: auto;
+}
+
+.poll-author {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.poll-pub-date {
+    font-style: italic;
 }
 
 .choices {
@@ -100,14 +101,20 @@ br {
     margin-bottom: 20px;
     padding: 10px;
     background-color: rgb(75, 75, 75);
+    display: flex;
+    width: fit-content;
 }
 
 .parameters > .input-group {
     width: fit-content;
 }
 
-#category-select, #order-select {
+#category-select, #order-select, .parameters > .input-group > .btn {
     margin-right: 10px;
+}
+
+.search-btn {
+    margin-right: 30px !important;
 }
 
 /* FORMS STYLES */

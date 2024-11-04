@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         choiceField1.required = true;
         choiceField1.parentElement.className = 'choice-field';
     } catch (error) {
-        console.log(error);
+        console.log('error: ', error);
     }
 
     try {
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     } catch (error) {
-        console.log(error);
+        console.log('error: ', error);
     }
 });
 
@@ -123,7 +123,7 @@ function addPoll(data) {
     // Set the category.
     newPoll.querySelector('.poll-category').innerHTML = data.category;
     // Set the author.
-    newPoll.querySelector('.poll-author').innerHTML = `Posted by ${data.author}.`;
+    newPoll.querySelector('.poll-author').innerHTML = data.author;
     // Set the id.
     newPoll.querySelector('#poll-id').value = data.id;
     // Append the new poll.
