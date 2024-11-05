@@ -25,9 +25,8 @@ br {
 }
 
 /* Polls section styles */
-
 .poll-section {
-    width: 90%;
+    display: inline;
 }
 
 .polls {
@@ -54,7 +53,7 @@ br {
     display: flex;
     width: 100%;
 }
-
+    
 .author-date {
     display: flex;
     margin-left: auto;

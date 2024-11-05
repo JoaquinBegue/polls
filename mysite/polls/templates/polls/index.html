@@ -6,7 +6,7 @@
   
   <input type="hidden" id="section" value="home">
 
-  <div class="col-3 sidebar">
+  <div class="col-sm-3 sidebar">
     <a href="{% url 'index' %}" class="text-decoration-none">
       <span class="title fs-4">Polls</span>
     </a>
@@ -19,7 +19,7 @@
     {% endif %}
   </div>
 
-  <div class="col-9 polls-section">
+  <div class="col-sm-9 polls-section">
     {% include 'polls/polls.html' %}
   </div>
 

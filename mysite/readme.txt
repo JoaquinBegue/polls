@@ -50,3 +50,5 @@ Features to test:
 - Poll creation
 - Poll loading and displaying
 - Voting
+
+under 1400px the polls div display breaks
