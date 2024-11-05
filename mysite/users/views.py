@@ -15,10 +15,7 @@ def register(request):
             return redirect('index')
         else:
             messages.error(request, "The provided credentials do not match.")
-            return redirect('register')
-    
-    return render(request, "users/register.html")
-
+            return redirect('index')
 
 def login_user(request):
     if request.method == "POST":
@@ -30,10 +27,7 @@ def login_user(request):
             return redirect('index')
         else:
             messages.error(request, "The provided passwords do not match.")
-            return redirect('login_user')
-    
-    return render(request, "users/login.html")
-
+            return redirect('index')
 
 def logout_user(request):
     logout(request)

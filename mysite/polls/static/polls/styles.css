@@ -26,6 +26,10 @@ br {
 
 /* Polls section styles */
 
+.poll-section {
+    width: 90%;
+}
+
 .polls {
     width: 100%;
     height: 87vh;
@@ -34,7 +38,8 @@ br {
 }
 
 .poll, .poll-choices {
-    width: 500px;
+    min-width: 30%;
+    max-width: 500px;
     background-color: white;
     border: 2px solid black;
     border-radius: 10px;
