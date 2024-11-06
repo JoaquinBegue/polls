@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block body %}
-<div class="row main mx-auto">
+<div class="main">
   
   <input type="hidden" id="section" value="home">
 
-  <div class="col-sm-3 sidebar">
+  <div class="sidebar">
     <a href="{% url 'index' %}" class="text-decoration-none">
       <span class="title fs-4">Polls</span>
     </a>
@@ -19,7 +19,7 @@
     {% endif %}
   </div>
 
-  <div class="col-sm-9 polls-section">
+  <div class="polls-section w-100">
     {% include 'polls/polls.html' %}
   </div>
 

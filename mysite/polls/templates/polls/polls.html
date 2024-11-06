@@ -20,9 +20,9 @@
       <option value="Trending">Trending</option>
     </select>
 
-    <button type="button" onclick="refreshPolls()" class="search-btn btn btn-light">Search</button>
-
   </div>
+  <button type="button" onclick="refreshPolls()" class="search-btn btn btn-light">Search</button>
+
   {% if user.is_authenticated %}
   <div class="input-group">
     <button type="button" onclick="togglePolls('home')" class="btn btn-light">All polls</button>

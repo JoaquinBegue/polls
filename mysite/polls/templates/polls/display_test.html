@@ -10,9 +10,23 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
   <style>
+    .main {
+      display: flex;
+    }
+
     .sidebar {
-      background-color: darkgray;
+      background-color: rgb(58, 58, 58);
       height: 100vh;
+      min-width: 350px;
+      max-width: 30%;
+      display: flex;
+    }
+    
+    .polls {
+      width: 100%;
+      height: 100vh;
+      background-color: gray;
+      display: flex;
     }
 
     .poll {
@@ -21,24 +35,15 @@
       background-color: rgb(75, 75, 75);
     }
 
-    .polls {
-      width: 100%;
-      height: 87vh;
-      overflow: scroll;
-    }
   </style>
 </head>
 <body>
 
-<div class="row">
-  <div class="col-3 sidebar"></div>
-  <div class="col-9 main"">
-    <div class="polls">
-      <div class="poll mx-auto my-3"></div>
-    </div>
-  </div>
+<div class="main">
+  <div class="sidebar"></div>
+  
+  <div class="polls"></div>
 </div>
-
 
 </body>
 </html>
