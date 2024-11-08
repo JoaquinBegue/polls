@@ -1,0 +1,58 @@
+<!-- Poll element -->
+<div class="poll">
+  <input type="hidden" id="poll-id" value="0">
+  <h3 class="question-text text-wrap text-break">Question</h3>
+  <div class="poll-footer">
+    <p class="poll-category">Category</p>
+    <div class="author-date">
+      <p class="poll-author mb-0">Author</p>
+      <p class="poll-pub-date mb-0">Publication date</p>
+    </div>
+    <br>
+  </div>
+  
+  <div class="choices">
+    {% if not user.is_authenticated %}
+    <h6 class="mx-auto">Sign in to vote.</h6>
+    {% endif %}
+    <input type="hidden" id="empty" value="true">
+    <input type="hidden" id="status" value="hidden">
+    <!-- ROW ELEMENT HERE -->
+  </div>
+
+  <div class="display-choices" onclick="displayChoices(this)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5M8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6"/>
+    </svg>
+  </div>
+</div>
+
+
+
+<!-- Row element -->
+<div class="row">
+  <div class="col-md-6">
+    <!-- CHOICE ELEMENT HERE -->
+  </div>
+  <div class="col-md-6">
+    <!-- CHOICE ELEMENT HERE -->
+  </div>
+</div>
+
+
+
+<!-- Choice element -->
+<div class="choice row mx-auto" 
+  {% if user.is_authenticated %}
+  onclick="voteChoice(this)"
+  {% endif %}
+>
+  <input type="hidden" id="choice-id" value="0">
+  <input type="hidden" id="status" value="unvoted">
+  <div class="col-9 px-1">
+    <h4 id="choice-text">Choice 1</h4>
+  </div>
+  <div class="col-3 px-1 my-auto percentage">
+    <h4 id="percentage"></h4>
+  </div>
+</div>

@@ -1,9 +1,10 @@
 // Polls related.
-let pollCounter = 0;
-const quantity = 10;
+let pollIndex = 0;
+const quantity = 20;
 let pollElement = null;
 let choiceElement = null;
 let rowElement = null;
+let pollRowCounter = 1;
 
 // Form related.
 let choiceFieldCounter = 1;
@@ -12,14 +13,13 @@ let choiceFieldElement = null;
 document.addEventListener('DOMContentLoaded', () => {
     // POLLS RELATED.
 
-    // Save and remove choice and poll elements.
-    choiceElement = document.querySelector('.choice-div').cloneNode(true);
-    document.querySelector('.choice-div').remove();
+    // Save poll, row and choice elements.
     pollElement = document.querySelector('.poll').cloneNode(true);
-    document.querySelector('.poll').remove();
-    
-    // Save row element.
-    rowElement = pollElement.querySelector('.row').cloneNode(true);
+    rowElement = document.querySelector('.row').cloneNode(true);
+    choiceElement = document.querySelector('.choice').cloneNode(true);
+
+    // Delete elements div.
+    document.querySelector('.elements').remove();
 
     // Load first 10 polls.
     loadPolls();
@@ -72,9 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // POLLS RELATED
 
 function loadPolls() {
-    const start = pollCounter;
+    const start = pollIndex;
     const end = start + quantity;
-    pollCounter = end + 1;
+    pollIndex = end + 1;
 
     const category = document.querySelector('#category-select').value;
     const order = document.querySelector('#order-select').value;
@@ -83,11 +83,31 @@ function loadPolls() {
     fetch(`/polls?start=${start}&end=${end}&category=${category}&order=${order}&section=${section}`)
         .then(response => response.json())
         .then(data => {
-            data.polls.forEach(addPoll);
+            let pollCounter = 1;
+            const pollsDiv = document.querySelector('.polls');
+            data.polls.forEach((poll) => {
+                // Create the poll element.
+                const newPoll = createPoll(poll);
+
+                // Append the new poll.
+                if (pollCounter != 0 && pollCounter % 2 == 0) {
+                    pollsDiv.children[pollRowCounter - 1].children[1].appendChild(newPoll);
+                } else {
+                    pollsDiv.children[pollRowCounter - 1].children[0].appendChild(newPoll);
+                }
+
+                // Every 2 polls add a row.
+                if (pollCounter != 0 && pollCounter % 2 == 0) {
+                    pollsDiv.appendChild(rowElement.cloneNode(true));
+                    pollRowCounter++;
+                }
+
+                pollCounter ++;
+            });
         });
 };
 
-function addPoll(data) {
+function createPoll(data) {
     const newPoll = pollElement.cloneNode(true);
     newPoll.style.display = 'block';
     // Set the question text.
@@ -126,9 +146,9 @@ function addPoll(data) {
     newPoll.querySelector('.poll-author').innerHTML = data.author;
     // Set the id.
     newPoll.querySelector('#poll-id').value = data.id;
-    // Append the new poll.
-    document.querySelector('.polls').appendChild(newPoll);
-};
+
+    return newPoll;
+}
 
 function addChoices(pollId, choicesDiv) {
     // Get choices from backend.
@@ -157,7 +177,12 @@ function addChoices(pollId, choicesDiv) {
                     choicesDiv.querySelector('#status').value = 'voted';
                 }
 
-                choicesDiv.children[rowCounter].appendChild(newChoice);
+                // Append the new poll.
+                if (choiceCounter != 0 && choiceCounter % 2 == 0) {
+                    choicesDiv.children[rowCounter].children[1].appendChild(newChoice);
+                } else {
+                    choicesDiv.children[rowCounter].children[0].appendChild(newChoice);
+                }
 
                 choiceCounter++;
                 choicesDiv.querySelector('#empty').value = 'false';
@@ -248,7 +273,7 @@ function refreshPolls() {
     // Clear the polls section.
     document.querySelector('.polls').innerHTML = '';
     // Reset the polls counter.
-    pollCounter = 0;
+    pollIndex = 0;
     // Display the new polls.
     loadPolls();
 }
