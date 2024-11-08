@@ -1,0 +1,20 @@
+@media (max-width: 1300px) {
+    .polls > .row {
+        display: block;
+    }
+
+    .polls > .row > .col-6 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 750px) {
+    .sidebar {
+        display: none;
+    }
+
+    .navbar {
+        display: flex;
+    }
+}
+

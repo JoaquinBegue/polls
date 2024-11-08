@@ -41,14 +41,5 @@ TODO:
 - Add delete poll feature when loading my polls.
 - Improve general styling.
 - Improve user registration and authentication
-
-
-TESTING:
-
-Features to test:
-
-- Poll creation
-- Poll loading and displaying
-- Voting
-
-under 1400px the polls div display breaks
+- Adjust forms displaying in navbar.
+- Fix parameters displaying on narrow viewport width.

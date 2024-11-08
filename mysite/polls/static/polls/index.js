@@ -4,7 +4,7 @@ const quantity = 20;
 let pollElement = null;
 let choiceElement = null;
 let rowElement = null;
-let pollRowCounter = 1;
+let pollRowCounter = 0;
 
 // Form related.
 let choiceFieldCounter = 1;
@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Delete elements div.
     document.querySelector('.elements').remove();
+
+    // Add an starting row on polls div.
+    document.querySelector('.polls').appendChild(rowElement.cloneNode(true));
+
 
     // Load first 10 polls.
     loadPolls();
@@ -91,13 +95,13 @@ function loadPolls() {
 
                 // Append the new poll.
                 if (pollCounter != 0 && pollCounter % 2 == 0) {
-                    pollsDiv.children[pollRowCounter - 1].children[1].appendChild(newPoll);
+                    pollsDiv.children[pollRowCounter].children[1].appendChild(newPoll);
                 } else {
-                    pollsDiv.children[pollRowCounter - 1].children[0].appendChild(newPoll);
+                    pollsDiv.children[pollRowCounter].children[0].appendChild(newPoll);
                 }
 
                 // Every 2 polls add a row.
-                if (pollCounter != 0 && pollCounter % 2 == 0) {
+                if (pollCounter == 0 && pollCounter % 2 == 0) {
                     pollsDiv.appendChild(rowElement.cloneNode(true));
                     pollRowCounter++;
                 }
@@ -321,6 +325,7 @@ function removeChoice(button) {
 };
 
 function displayRegister() {
+    console.log('dsajbdab');
     document.querySelector('#sign-in-form').style.display = 'none';
     document.querySelector('#register-form').style.display = 'block';
 }

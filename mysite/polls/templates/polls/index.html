@@ -16,6 +16,8 @@
 
 
   <link rel="stylesheet" href="{% static 'polls/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'polls/polls.css' %}">
+  <link rel="stylesheet" href="{% static 'polls/media_queries.css' %}">
   <script src="{% static 'polls/index.js' %}"></script>
 </head>
 
@@ -23,6 +25,28 @@
   <div class="elements">
     {% include 'polls/elements.html' %}
   </div>
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <span class="title fs-4">Polls</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse mt-3" id="navbarNavAltMarkup">
+        {% if user.is_authenticated %}
+          <div class="user-logout">
+            <p>Welcome <strong>{{ user.username }}</strong></p>
+            <a href="{% url 'logout_user' %}">Log Out</a>
+          </div>
+        {% endif %}
+        <div class="navbar-nav">
+          {% include 'polls/forms.html' %}
+        </div>
+      </div>
+    </div>
+  </nav>
 
   <div class="main">
   
@@ -33,12 +57,15 @@
         <span class="title fs-4">Polls</span>
       </a>
       <hr>
+
+      {% if user.is_authenticated %}
+        <div class="user-logout">
+          <p>Welcome <strong>{{ user.username }}</strong></p>
+          <a href="{% url 'logout_user' %}">Log Out</a>
+        </div>
+      {% endif %}
   
       {% include 'polls/forms.html' %}
-  
-      {% if user.is_authenticated %}
-        <a class="btn btn-outline-secondary" href="{% url 'logout_user' %}">Log Out</a>
-      {% endif %}
     </div>
   
     <div class="polls-section w-100">

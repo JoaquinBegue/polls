@@ -130,3 +130,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LIVERELOAD_HOST = '192.168.100.6'
+LIVERELOAD_PORT = '8080'
