@@ -93,3 +93,16 @@
 .search-btn {
     margin-right: 30px !important;
 }
+
+.nav-item {
+    width: 50%;
+}
+
+.nav-link {
+    color: white !important;
+    width: 100%;
+}
+
+.active {
+    color: black !important;
+}

@@ -131,5 +131,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LIVERELOAD_HOST = '192.168.100.6'
-LIVERELOAD_PORT = '8080'
+# Uncomment to open dev server in a external machine.
+#LIVERELOAD_HOST = '192.168.100.6'
+#LIVERELOAD_PORT = '8080'

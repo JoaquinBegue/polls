@@ -12,25 +12,30 @@
       <option value="Development & Programming">Dev & Programming</option>
       <option value="Other">Other</option>
     </select>
-  
+  </div>
+  <div class="input-group">
     <label class="input-group-text rounded-start" for="order-select">Order by...</label>
     <select class="form-select" id="order-select">
       <option selected>Most recent</option>
       <option value="Most voted">Most voted</option>
       <option value="Trending">Trending</option>
     </select>
-
   </div>
+
   <button type="button" onclick="refreshPolls()" class="search-btn btn btn-light">Search</button>
 
-  {% if user.is_authenticated %}
-  <div class="input-group">
-    <button type="button" onclick="togglePolls('home')" class="btn btn-light">All polls</button>
-  
-    <button type="button" onclick="togglePolls('my polls')" class="btn btn-light">My polls</button>
-  </div>
-  {% endif %}
 </div>    
+
+{% if user.is_authenticated %}
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <button type="button" onclick="togglePolls('home')" class="nav-link active">All polls</button>
+  </li>
+  <li class="nav-item">
+    <button type="button" onclick="togglePolls('my polls')" class="nav-link">My polls</button>
+  </li>
+</ul>
+{% endif %}
 
 <div class="polls">
 </div>
