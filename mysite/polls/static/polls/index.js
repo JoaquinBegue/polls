@@ -8,22 +8,20 @@ let pollRowCounter = 0;
 
 // Form related.
 let choiceFieldCounter = 1;
-let choiceFieldElement = null;
+let extraChoiceFieldElement = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     // POLLS RELATED.
 
     // Save poll, row and choice elements.
-    pollElement = document.querySelector('.poll').cloneNode(true);
-    rowElement = document.querySelector('.row').cloneNode(true);
-    choiceElement = document.querySelector('.choice').cloneNode(true);
+    const elements = document.querySelector('.elements');
+    pollElement = elements.querySelector('.poll').cloneNode(true);
+    rowElement = elements.querySelector('.row').cloneNode(true);
+    choiceElement = elements.querySelector('.choice').cloneNode(true);
+    extraChoiceFieldElement = elements.querySelector('.extra-choice').cloneNode(true);
 
     // Delete elements div.
-    document.querySelector('.elements').remove();
-
-    // Add an starting row on polls div.
-    //document.querySelector('.polls').appendChild(rowElement.cloneNode(true));
-
+    elements.remove();
 
     // Load first 10 polls.
     loadPolls();
@@ -48,26 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const choiceField1 = document.querySelector("#id_choices-1-choice_text")
         choiceField1.required = true;
         choiceField1.parentElement.className = 'choice-field';
-    } catch (error) {
-        console.log('error: ', error);
-    }
-
-    try {
-        // Save extra choice field div.
-        const choiceFieldDiv = document.querySelector('#extra-choice-0');
-        choiceFieldElement = choiceFieldDiv.cloneNode(true);
-        choiceFieldElement.style.display = 'flex';
-        choiceFieldDiv.remove();
-    
-        // Enable add choice button if field isn't empty.
-        const addChoiceFieldDiv = document.querySelector('#add-extra-choice');
-        addChoiceFieldDiv.children[0].addEventListener('input', () => {
-            if (addChoiceFieldDiv.children[0].value.trim() != '') {
-                addChoiceFieldDiv.children[1].disabled = false;
-            } else {
-                addChoiceFieldDiv.children[1].disabled = true;
-            }
-        });
     } catch (error) {
         console.log('error: ', error);
     }
@@ -303,24 +281,20 @@ function togglePolls(section) {
 
 // FORM RELATED
 
-function addExtraChoiceField(button) {
-    // Add a new extra-choice field
-    const newExtraChoiceField = choiceFieldElement.cloneNode(true);
-    newExtraChoiceField.children[0].value = button.parentNode.children[0].value;
-    choiceForm = document.querySelector('.choice-form');
-    choiceForm.insertBefore(newExtraChoiceField, button.parentNode);
-
+function addExtraChoiceField() {
+    console.log('dsadbqahwbdeiwqbei')
+    // Create a new extra-choice field
+    const newExtraChoiceField = extraChoiceFieldElement.cloneNode(true);
+    
     // Update counters.
-    choiceFieldElement.id = `extra-choice-${choiceFieldCounter}`;
+    newExtraChoiceField.id = `extra-choice-${choiceFieldCounter}`;
     var regex = new RegExp(`choices-(\\d+)-`, 'g');
-    choiceFieldElement.innerHTML = choiceFieldElement.innerHTML.replace(regex, `choices-${2 + choiceFieldCounter}-`);
+    newExtraChoiceField.innerHTML = newExtraChoiceField.innerHTML.replace(regex, `choices-${2 + choiceFieldCounter}-`);
     choiceFieldCounter++;
     document.querySelector('#id_choices-TOTAL_FORMS').value++;
-
-    // Reset field value, enable field autofocus and disable button.
-    button.parentNode.children[0].value = '';
-    button.parentNode.children[0].focus();
-    button.disabled = true;
+    
+    // Add the extra choice field.
+    document.querySelector('.fields').appendChild(newExtraChoiceField);
 };
 
 function removeChoice(button) {

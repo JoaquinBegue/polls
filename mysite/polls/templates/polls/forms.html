@@ -13,25 +13,14 @@
     <div class="choice-form">
       <h4>Add choices</h4>
       <p>Remember to click the Add button to save the extra choices!</p>
-      {{ choice_formset }}
-      <div id="extra-choice-0" class="extra-choice choice-field" style="display: none;">
-        <input type="text" name="choices-2-choice_text" class="form-control" placeholder="Extra choice (optional)"
-          maxlength="200" id="id_choices-2-choice_text">
-        <input type="hidden" name="choices-2-id" id="id_choices-2-id">
-        <input type="hidden" name="choices-2-question" id="id_choices-2-question">
-        <button id="remove-choice-btn" onclick="removeChoice(this)" class="btn btn-outline-primary"
-          type="button">X</button>
+      <div class="fields">
+        {{ choice_formset }}
       </div>
-      <div id="add-extra-choice">
-        <input type="text" class="form-control" placeholder="Extra choice (optional)" maxlength="200"
-          id="id_choices-2-choice_text">
-        <button id="add-extra-choice-btn" onclick="addExtraChoiceField(this)" disabled class="btn btn-outline-primary"
-          type="button">Add</button>
+      <div id="submit-add">
+        <button class="btn btn-primary" type="submit">Create</button>
+        <button id="add-extra-choice-btn" onclick="addExtraChoiceField()" class="btn btn-outline-primary"
+          type="button">Add extra choice</button>
       </div>
-    </div>
-
-    <div class="submit">
-      <button class="btn btn-primary" type="submit">Create</button>
     </div>
   </form>
 </div>
