@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.elements').remove();
 
     // Add an starting row on polls div.
-    document.querySelector('.polls').appendChild(rowElement.cloneNode(true));
+    //document.querySelector('.polls').appendChild(rowElement.cloneNode(true));
 
 
     // Load first 10 polls.
@@ -87,24 +87,27 @@ function loadPolls() {
     fetch(`/polls?start=${start}&end=${end}&category=${category}&order=${order}&section=${section}`)
         .then(response => response.json())
         .then(data => {
-            let pollCounter = 1;
+            let pollCounter = 0;
             const pollsDiv = document.querySelector('.polls');
             data.polls.forEach((poll) => {
                 // Create the poll element.
                 const newPoll = createPoll(poll);
 
-                // Append the new poll.
-                if (pollCounter != 0 && pollCounter % 2 == 0) {
-                    pollsDiv.children[pollRowCounter].children[1].appendChild(newPoll);
-                } else {
-                    pollsDiv.children[pollRowCounter].children[0].appendChild(newPoll);
-                }
-
-                // Every 2 polls add a row.
-                if (pollCounter == 0 && pollCounter % 2 == 0) {
+                // Add the first row, or add a row every 2 polls.
+                if (pollRowCounter == 0) {
+                    pollsDiv.appendChild(rowElement.cloneNode(true));
+                } else if (pollCounter % 2 == 0) {
                     pollsDiv.appendChild(rowElement.cloneNode(true));
                     pollRowCounter++;
                 }
+
+                // Append the new poll.
+                if (pollCounter == 0 || pollCounter % 2 != 0) {
+                    pollsDiv.children[pollRowCounter].children[0].appendChild(newPoll);
+                } else {
+                    pollsDiv.children[pollRowCounter].children[1].appendChild(newPoll);
+                }
+
 
                 pollCounter ++;
             });
@@ -278,12 +281,22 @@ function refreshPolls() {
     document.querySelector('.polls').innerHTML = '';
     // Reset the polls counter.
     pollIndex = 0;
+    // Reset the poll's row counter.
+    pollRowCounter = 0;
     // Display the new polls.
     loadPolls();
 }
 
 function togglePolls(section) {
     document.querySelector('#section').value = section;
+
+    if (section == 'user_polls') {
+        document.querySelector('#user-polls-tab').className = 'nav-link active';
+        document.querySelector('#all-polls-tab').className = 'nav-link';
+    } else {
+        document.querySelector('#all-polls-tab').className = 'nav-link active';
+        document.querySelector('#user-polls-tab').className = 'nav-link';
+    }
     
     refreshPolls()
 }

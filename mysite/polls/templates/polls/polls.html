@@ -29,10 +29,10 @@
 {% if user.is_authenticated %}
 <ul class="nav nav-tabs mb-3">
   <li class="nav-item">
-    <button type="button" onclick="togglePolls('home')" class="nav-link active">All polls</button>
+    <button type="button" onclick="togglePolls('all_polls')" id="all-polls-tab" class="nav-link active">All polls</button>
   </li>
   <li class="nav-item">
-    <button type="button" onclick="togglePolls('my polls')" class="nav-link">My polls</button>
+    <button type="button" onclick="togglePolls('user_polls')" id="user-polls-tab" class="nav-link">My polls</button>
   </li>
 </ul>
 {% endif %}

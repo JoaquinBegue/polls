@@ -69,7 +69,7 @@ def polls(request):
             .order_by('-num_votes')[start:end]
     else:
         polls = Poll.objects.filter(
-            Q(author=request.user) if section == "my_polls" else Q(id__gte=1),
+            Q(author=request.user) if section == "user_polls" else Q(id__gte=1),
             Q(category=category) if category else Q(id__gte=1)
         ).order_by(order)[start:end]
 
