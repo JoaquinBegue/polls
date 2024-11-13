@@ -46,6 +46,12 @@ br {
 
 /* Create poll form styles */
 
+.test {
+    width: 100px;
+    height: 40px;
+    background-color: aqua;
+}
+
 .poll-form {
     padding-right: 20px;
 }
@@ -55,7 +61,7 @@ br {
 }
 
 .choice-form {
-    overflow: scroll;
+    overflow: visible;
 }
 
 .choice-form > div {

@@ -7,7 +7,8 @@ let rowElement = null;
 let pollRowCounter = 0;
 
 // Form related.
-let choiceFieldCounter = 1;
+let formsElement = null;
+let choiceFieldCounter = 0;
 let extraChoiceFieldElement = null;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,9 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     rowElement = elements.querySelector('.row').cloneNode(true);
     choiceElement = elements.querySelector('.choice').cloneNode(true);
     extraChoiceFieldElement = elements.querySelector('.extra-choice').cloneNode(true);
-
-    // Delete elements div.
-    elements.remove();
 
     // Load first 10 polls.
     loadPolls();
@@ -38,6 +36,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FORM RELATED.
 
+    // Save forms element.
+    formsElement = elements.querySelector('.forms').cloneNode(true);
+
+    // Media query to match viewports less than 750px wide.
+    const mediaQuery = window.matchMedia('(max-width: 750px)');
+
+    // Insert forms in the navbar or the sidebar, depending on mediaQuery matching.
+    if (mediaQuery.matches) {
+        document.querySelector('.navbar-forms').appendChild(formsElement.cloneNode(true));
+    } else {
+        document.querySelector('.sidebar-forms').appendChild(formsElement.cloneNode(true));
+    }
+    
+    // Add event listener for media query changes.
+    mediaQuery.addEventListener('changes', moveForm);
+
     // Mark first 2 choice fields as required and add class to parent divs.
     try {
         const choiceField0 = document.querySelector("#id_choices-0-choice_text")
@@ -49,6 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) {
         console.log('error: ', error);
     }
+
+    // Remove elements div.
+    elements.remove();
 });
 
 // POLLS RELATED
@@ -281,6 +298,19 @@ function togglePolls(section) {
 
 // FORM RELATED
 
+function moveForm (mediaQuery) {
+    console.log('daa')
+    // Save and remove forms.
+    formsElement = document.querySelector('.forms').cloneNode(true);
+    document.querySelector('.forms').remove();
+
+    if (mediaQuery.matches) {
+        document.querySelector('.sidebar-forms').appendChild(formsElement);
+    } else {
+        document.querySelector('.navbar-forms').appendChild(formsElement);
+    }
+}
+
 function addExtraChoiceField() {
     console.log('dsadbqahwbdeiwqbei')
     // Create a new extra-choice field
@@ -294,10 +324,11 @@ function addExtraChoiceField() {
     document.querySelector('#id_choices-TOTAL_FORMS').value++;
     
     // Add the extra choice field.
-    document.querySelector('.fields').appendChild(newExtraChoiceField);
+    document.querySelector('#fields').appendChild(newExtraChoiceField);
 };
 
 function removeChoice(button) {
+    console.log('dsaddadasdfwqrf')
     button.parentNode.remove();
     document.querySelector('#id_choices-TOTAL_FORMS').value--;
     // Update the counters of the other choice fields.

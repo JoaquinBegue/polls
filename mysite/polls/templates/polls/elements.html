@@ -57,6 +57,8 @@
   </div>
 </div>
 
+
+
 <!-- Extra choice field element -->
 <div id="extra-choice-0" class="extra-choice choice-field">
   <input type="text" name="choices-2-choice_text" class="form-control" placeholder="Extra choice (optional)"
@@ -65,4 +67,11 @@
   <input type="hidden" name="choices-2-question" id="id_choices-2-question">
   <button id="remove-choice-btn" onclick="removeChoice(this)" class="btn btn-outline-primary"
     type="button">X</button>
+</div>
+
+
+
+<!-- Forms element -->
+<div class="forms">
+  {% include 'polls/forms.html' %}
 </div>

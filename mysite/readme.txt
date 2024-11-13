@@ -43,3 +43,5 @@ TODO:
 - Improve user registration and authentication
 - Adjust forms displaying in navbar.
 - Fix parameters displaying on narrow viewport width.
+
+- Fix forms data persistence during viewport changes (moving forms from sidebar to navbar).

@@ -41,8 +41,8 @@
             <a href="{% url 'logout_user' %}">Log Out</a>
           </div>
         {% endif %}
-        <div class="navbar-nav">
-          {% include 'polls/forms.html' %}
+        <div class="navbar-nav navbar-forms">
+          
         </div>
       </div>
     </div>
@@ -64,8 +64,10 @@
           <a href="{% url 'logout_user' %}">Log Out</a>
         </div>
       {% endif %}
-  
-      {% include 'polls/forms.html' %}
+      
+      <div class="sidebar-forms">
+        
+      </div>
     </div>
   
     <div class="polls-section w-100">
